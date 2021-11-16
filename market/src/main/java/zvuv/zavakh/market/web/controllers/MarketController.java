@@ -2,13 +2,12 @@ package zvuv.zavakh.market.web.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import zvuv.zavakh.market.services.MarketService;
+import zvuv.zavakh.market.web.dto.CreateOrderDto;
 import zvuv.zavakh.market.web.dto.ProductDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,5 +23,10 @@ public class MarketController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "2") Integer pageSize) {
 
         return ResponseEntity.ok(marketService.getProducts(pageNumber, pageSize));
+    }
+
+    @PostMapping("/orders/create")
+    public void createOrder(@RequestBody @Valid CreateOrderDto createOrderDto) {
+        marketService.createOrder(createOrderDto);
     }
 }

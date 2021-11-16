@@ -1,9 +1,6 @@
 package zvuv.zavakh.orders.web.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import zvuv.zavakh.orders.domain.OrderStatus;
 
 import javax.validation.constraints.Null;
@@ -12,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class OrderDto {
 
@@ -20,5 +18,7 @@ public class OrderDto {
 
     private Long customerId;
     private List<OrderProductDto> orderProducts;
+
+    @Null
     private OrderStatus orderStatus;
 }

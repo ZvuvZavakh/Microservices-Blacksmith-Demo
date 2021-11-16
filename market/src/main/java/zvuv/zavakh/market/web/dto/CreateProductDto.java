@@ -1,17 +1,16 @@
 package zvuv.zavakh.market.web.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
-@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class CreateProductDto {
 
-    private Long id;
-    private String description;
-    private Integer price;
+    private Long productId;
+    private Integer quantity;
 }

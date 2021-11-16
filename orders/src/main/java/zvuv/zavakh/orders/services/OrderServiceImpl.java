@@ -26,6 +26,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto create(OrderDto orderDto) {
         Order order = orderMapper.convertFromDtoToEntity(orderDto);
+        
+        order.setOrderStatus(OrderStatus.PENDING);
         orderRepository.save(order);
 
         return orderMapper.convertFromEntityToDto(order);
