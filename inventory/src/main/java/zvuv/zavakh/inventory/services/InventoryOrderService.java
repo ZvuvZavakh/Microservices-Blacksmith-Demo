@@ -8,6 +8,8 @@ public interface InventoryOrderService {
 
     InventoryOrder create(InventoryOrderDto inventoryOrderDto);
     InventoryOrder populateFromStoredProducts(InventoryOrder inventoryOrder);
+    void sendOrderCompletedNotification(InventoryOrder inventoryOrder);
+    void sendBlacksmithOrder(InventoryOrder inventoryOrder);
     void processOrder(InventoryOrderDto inventoryOrderDto);
     void addProduct(AddInventoryOrderProductDto addInventoryOrderProductDto);
     boolean checkIfOrderIsCompleted(InventoryOrder inventoryOrder);
