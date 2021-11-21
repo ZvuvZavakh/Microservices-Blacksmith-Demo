@@ -6,7 +6,9 @@ import zvuv.zavakh.inventory.web.dto.InventoryOrderDto;
 
 public interface InventoryOrderService {
 
-    void create(InventoryOrderDto inventoryOrderDto);
+    InventoryOrder create(InventoryOrderDto inventoryOrderDto);
+    InventoryOrder populateFromStoredProducts(InventoryOrder inventoryOrder);
+    void processOrder(InventoryOrderDto inventoryOrderDto);
     void addProduct(AddInventoryOrderProductDto addInventoryOrderProductDto);
     boolean checkIfOrderIsCompleted(InventoryOrder inventoryOrder);
 }

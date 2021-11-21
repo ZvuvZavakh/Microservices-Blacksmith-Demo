@@ -18,11 +18,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping
-    public ResponseEntity<OrderDto> create(@RequestBody @Valid OrderDto orderDto) {
-        return ResponseEntity.ok(orderService.create(orderDto));
-    }
-
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<OrderListDto> getOrdersByCustomerId(@PathVariable("customerId") Long customerId) {
         return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));

@@ -15,16 +15,43 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfiguration {
 
     @Value("${marketToOrdersQueueName}")
-    private String queueName;
+    private String marketQueueName;
+
+    @Value("${ordersToInventoryQueueName}")
+    private String inventoryQueueName;
+
+    @Value("${ordersToInventoryExchangeName}")
+    private String inventoryExchange;
+
+    @Value("${ordersToInventoryRoutingKey}")
+    private String inventoryRoutingKey;
 
     @Bean
     public ConnectionFactory getConnectionFactory() {
         return new CachingConnectionFactory("localhost");
     }
-
+    /*
     @Bean
     public Queue queue() {
-        return new Queue(queueName);
+        return new Queue(marketQueueName);
+    }
+    */
+    @Bean
+    public Queue inventoryQueue() {
+        return new Queue(inventoryQueueName);
+    }
+
+    @Bean
+    DirectExchange inventoryExchange() {
+        return new DirectExchange(inventoryExchange);
+    }
+
+    @Bean
+    Binding inventoryBinding(Queue queue, DirectExchange directExchange) {
+        return BindingBuilder
+                .bind(queue)
+                .to(directExchange)
+                .with(inventoryRoutingKey);
     }
 
     @Bean
@@ -37,8 +64,8 @@ public class RabbitConfiguration {
         return new RabbitAdmin(getConnectionFactory());
     }
 
-    @Bean
-    public RabbitTemplate rabbitTemplate() {
+    @Bean("ordersRabbitTemplate")
+    public AmqpTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(getConnectionFactory());
         rabbitTemplate.setMessageConverter(getMessageConverter());
 
