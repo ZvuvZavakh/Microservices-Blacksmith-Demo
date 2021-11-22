@@ -6,6 +6,7 @@ import zvuv.zavakh.blacksmith.domain.BlacksmithOrder;
 import zvuv.zavakh.blacksmith.domain.BlacksmithOrderProduct;
 import zvuv.zavakh.blacksmith.repositories.BlacksmithOrderRepository;
 import zvuv.zavakh.blacksmith.web.dto.BlacksmithOrderDto;
+import zvuv.zavakh.blacksmith.web.dto.CraftedOrderProductDto;
 import zvuv.zavakh.blacksmith.web.mappers.BlacksmithOrderMapper;
 
 @Service
@@ -21,22 +22,30 @@ public class BlacksmithOrderServiceImpl implements BlacksmithOrderService {
     }
 
     @Override
-    public void createProduct(Long blacksmithOrderId, Long productId) {
+    public BlacksmithOrder getOrder() {
+        return blacksmithOrderRepository.findTopByOrderByIdDesc()
+                .orElseThrow(() -> new RuntimeException("No orders found!"));
+    }
 
+    @Override
+    public void update(BlacksmithOrder blacksmithOrder) {
+        blacksmithOrderRepository.save(blacksmithOrder);
+    }
+
+    @Override
+    public CraftedOrderProductDto createProduct(Long blacksmithOrderId, Long productId) {
+        return CraftedOrderProductDto
+                .builder()
+                .orderId(blacksmithOrderId)
+                .productId(productId)
+                .build();
     }
 
     @Override
     public boolean checkIfOrderIsCompleted(BlacksmithOrder blacksmithOrder) {
-        boolean isCompleted = true;
-
-        for (BlacksmithOrderProduct blacksmithOrderProduct: blacksmithOrder.getProducts()) {
-            if (blacksmithOrderProduct.getQuantity() != 0) {
-                isCompleted = false;
-                break;
-            }
-        }
-
-        return isCompleted;
+        return blacksmithOrder.getProducts()
+                .stream()
+                .allMatch(blacksmithOrderProduct -> blacksmithOrderProduct.getQuantity() == 0);
     }
 
     @Override
